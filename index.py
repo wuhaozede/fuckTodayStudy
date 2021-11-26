@@ -10,7 +10,7 @@ from actions.sleepCheck import sleepCheck
 from actions.rlMessage import RlMessage
 from login.Utils import Utils
 
-
+#读取yml文件
 def getYmlConfig(yaml_file='config.yml'):
     file = open(yaml_file, 'r', encoding="utf-8")
     file_data = file.read()
@@ -20,15 +20,22 @@ def getYmlConfig(yaml_file='config.yml'):
 
 
 def main():
+    #读取yml文件
     config = getYmlConfig()
+    #根据用户执行代码
     for index, user in enumerate(config['users']):
         print(f'{Utils.getAsiaTime()} 第{index + 1}个用户正在执行...')
+        #发送消息类
         rl = RlMessage(user['user']['sendKey'], config['emailApiUrl'], config['myQmsgKey'], config['sendType'])
+
         if config['debug']:
+            #工作流
             msg = working(user)
         else:
             try:
+                #工作流
                 msg = working(user)
+            #错误检测
             except Exception as e:
                 msg = str(e)
                 print(Utils.getAsiaTime() + ' ' + msg)
@@ -40,9 +47,10 @@ def main():
         print(msg)
         print(f"{Utils.getAsiaTime()} 第{index + 1}个用户执行完毕！")
 
-
+#工作流
 def working(user):
     print(f'{Utils.getAsiaTime()} 正在获取登录地址')
+    #获取登陆地址
     today = TodayLoginService(user['user'])
     print(f'{Utils.getAsiaTime()} 正在登录ing')
     today.login()

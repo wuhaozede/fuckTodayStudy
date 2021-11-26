@@ -15,6 +15,8 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 class TodayLoginService:
     # 初始化本地登录类
     def __init__(self, userInfo):
+        #依次读取用户名、密码、学校参数
+        #初始化类参数
         if None == userInfo['username'] or '' == userInfo['username'] or None == userInfo['password'] or '' == userInfo[
             'password'] or None == userInfo['schoolName'] or '' == userInfo['schoolName']:
             raise Exception('初始化类失败，请键入完整的参数（用户名，密码，学校名称）')
